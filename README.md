@@ -6,3 +6,4 @@
 - Camera configaration : custom cameras are included.
 - Inventory system : Items can be created and stored.
 - Input system: Create your input and utilize them.
+- State machine: create any state machine which works with tasks and decisions
