@@ -8,7 +8,7 @@ namespace HyperCasual_Engine.TasksAndDecisions.Tasks
     {
         [SerializeField] private Character character;
         [SerializeField] private WayPointHandler wayPointHandler;
-        [SerializeField] private bool deActiveOtherAbilities;
+        [SerializeField] private bool deActiveOtherAbilities = true;
         
         private NavmeshMovement _movement;
 
@@ -35,6 +35,7 @@ namespace HyperCasual_Engine.TasksAndDecisions.Tasks
 
         private void OnReachDestination()
         {
+            _movement.StopMovement();
             ActivateOtherAbilities(true);
             InvokeTaskEnd();
             

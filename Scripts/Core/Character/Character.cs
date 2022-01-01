@@ -15,9 +15,10 @@ namespace HyperCasual_Engine
         {
             get
             {
-                if (_inputManager != null) return _inputManager;
-                Debug.LogError("InputManager does not exist");
-                return null;
+                if(_inputManager == null)
+                    Debug.LogError("InputManager does not exist");
+
+                return _inputManager;
             }
         }
         
