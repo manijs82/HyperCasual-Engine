@@ -1,17 +1,19 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace HyperCasual_Engine
 {
     public abstract class Task : MonoBehaviour
     {
-        public event Action OnTaskEnded;
+        public UnityEvent OnTaskEnded;
 
         protected bool canPerformTask = true;
         
         public abstract void PerformTask();
 
-        protected void InvokeTaskEnd() =>
+        protected virtual void OnTaskEnd()
+        {
             OnTaskEnded?.Invoke();
+        }
     }
 }

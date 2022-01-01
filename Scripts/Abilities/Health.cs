@@ -55,7 +55,6 @@ namespace HyperCasual_Engine.Abilities
         private void Die()
         {
             _isDead = true;
-            print(gameObject.name + "is dead!");
             OnDeath?.Invoke();
         }
     }

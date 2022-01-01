@@ -20,7 +20,6 @@ namespace HyperCasual_Engine.Abilities
 
                 if (_agent.remainingDistance > _agent.stoppingDistance) return false;
                 
-                print(!_agent.hasPath);
                 return !_agent.hasPath;
             }   
         }

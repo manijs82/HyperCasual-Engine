@@ -27,19 +27,19 @@ namespace HyperCasual_Engine.TasksAndDecisions.Tasks
                 ActivateOtherAbilities(false);
 
             _movement.SetDestination(wayPointHandler.GetNextWayPointPosition(out bool wasLastWayPoint));
-            _movement.OnReachDestination += OnReachDestination;
+            _movement.OnReachDestination += OnTaskEnd;
 
             if (wasLastWayPoint)
                 canPerformTask = false;
         }
 
-        private void OnReachDestination()
+        protected override void OnTaskEnd()
         {
+            _movement.OnReachDestination -= OnTaskEnd;
             _movement.StopMovement();
             ActivateOtherAbilities(true);
-            InvokeTaskEnd();
-            
-            _movement.OnReachDestination -= OnReachDestination;
+
+            base.OnTaskEnd();
         }
 
         private void ActivateOtherAbilities(bool active)
