@@ -56,6 +56,8 @@ namespace HyperCasual_Engine.Abilities
         {
             _isDead = true;
             OnDeath?.Invoke();
+            
+            Destroy(gameObject);
         }
     }
 }

@@ -15,5 +15,17 @@ namespace HyperCasual_Engine.Utils
                 _ => Vector3.zero
             };
         }
+        
+        public static Quaternion GetRotation(this Direction direction)
+        {
+            return direction switch
+            {
+                Direction.North => Quaternion.Euler(0, 0, 0),
+                Direction.South => Quaternion.Euler(0, 180, 0),
+                Direction.East => Quaternion.Euler(0, 90, 0),
+                Direction.West => Quaternion.Euler(0, 270, 0),
+                _ => Quaternion.identity
+            };
+        }
     }
 }

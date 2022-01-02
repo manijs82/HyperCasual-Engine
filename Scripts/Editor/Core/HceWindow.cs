@@ -8,7 +8,7 @@ namespace HyperCasual_Engine.Editor
 {
     public class HceWindow : EditorWindow
     {
-        private readonly string[] _tabNames = {"Camera", "Level"};
+        private readonly string[] _tabNames = {"Magic Buttons", "Camera", "Level"};
         private int _tabIndex;
         
         private Transform _playerTr;
@@ -33,10 +33,20 @@ namespace HyperCasual_Engine.Editor
             switch (_tabIndex)
             {
                 case 0:
+                    break;
+                case 1:
                     DrawCameraSetup();
                     break;
                 default:
                     break;
+            }
+        }
+
+        private void DrawMagicButtons()
+        {
+            if (GUILayout.Button("SetUp Scene"))
+            {
+                MagicButtons.SetUpScene();
             }
         }
 

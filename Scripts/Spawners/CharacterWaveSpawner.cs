@@ -3,15 +3,12 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace HyperCasual_Engine.Spawner
+namespace HyperCasual_Engine.Spawners
 {
-    public class WaveSpawner : MonoBehaviour
+    public class CharacterWaveSpawner : Spawner
     {
-        [SerializeField] private bool spawnAtStart;
-        [SerializeField] private float delayBetweenWaves;
         [Space]
-        [SerializeField] private Wave[] waves;
-        [Space] [SerializeField] private UnityEvent onAllWavesEnd;
+        [SerializeField] private CharacterSpawningWave[] waves;
         
         private void Start()
         {
@@ -19,13 +16,14 @@ namespace HyperCasual_Engine.Spawner
                 Continue();
         }
 
-        public virtual void Continue()
+        public override void Continue()
         {
             Wave nextWave = waves.FirstOrDefault(w => !w.finished);
             
             if (nextWave == null)
             {
-                onAllWavesEnd?.Invoke();
+                AllWavesEnded();
+                WaveEnded();
                 return;
             }
 
@@ -33,10 +31,15 @@ namespace HyperCasual_Engine.Spawner
             nextWave.OnWaveEnd += Continue;
         }
 
-        protected virtual IEnumerator StartNextWave(Wave spawningWave)
+        private IEnumerator StartNextWave(Wave spawningWave)
         {
+            if(!IsFirstWave(spawningWave))
+                WaveEnded();
             yield return new WaitForSeconds(delayBetweenWaves);
             spawningWave.StartWave();
         }
+
+        private bool IsFirstWave(Wave spawningWave) => 
+            waves.ElementAt(0) == spawningWave;
     }
 }

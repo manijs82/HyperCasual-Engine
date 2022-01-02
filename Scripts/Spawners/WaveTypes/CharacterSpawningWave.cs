@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Linq;
 using HyperCasual_Engine.Abilities;
 using UnityEngine;
 
-namespace HyperCasual_Engine.Spawner
+namespace HyperCasual_Engine.Spawners
 {
     [Serializable]
     public class CharacterSpawningWave : Wave
     {
         public CharacterSpawnObject[] spawnObjects;
-        [SerializeField] private bool proceedOnCharacterDeath;
+        [SerializeField] private bool proceedOnCharacterDeath = true;
         
         private int _deathCount;
 
@@ -18,8 +19,9 @@ namespace HyperCasual_Engine.Spawner
             {
                 spawnObject.Spawn();
                 if (!proceedOnCharacterDeath) continue;
-                
-                Health health = spawnObject.character.GetAbility<Health>() as Health;
+
+                Character character = spawnObject.GetSpawnedObject() as Character;
+                Health health = character.GetAbility<Health>() as Health;
                 if(health == null)
                     health.OnDeath.AddListener(OnEnemyDeath);
             }

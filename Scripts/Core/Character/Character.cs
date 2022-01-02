@@ -11,17 +11,8 @@ namespace HyperCasual_Engine
         private InputManager _inputManager;
         private Ability[] _frequentUseAbilities;
 
-        public InputManager InputManager
-        {
-            get
-            {
-                if(_inputManager == null)
-                    Debug.LogError("InputManager does not exist");
+        public InputManager InputManager => _inputManager;
 
-                return _inputManager;
-            }
-        }
-        
         private void Awake()
         {
             _inputManager = FindObjectOfType<InputManager>();

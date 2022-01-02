@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace HyperCasual_Engine.Spawner
+namespace HyperCasual_Engine.Spawners
 {
     [System.Serializable]
     public abstract class SpawnObject
@@ -9,5 +9,6 @@ namespace HyperCasual_Engine.Spawner
         public Direction facingDirection;
 
         public abstract void Spawn();
+        public abstract Object GetSpawnedObject();
     }
 }

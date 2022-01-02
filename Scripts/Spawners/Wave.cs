@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace HyperCasual_Engine.Spawner
+namespace HyperCasual_Engine.Spawners
 {
     [Serializable]
     public class Wave
@@ -17,5 +17,6 @@ namespace HyperCasual_Engine.Spawner
             finished = true;
             OnWaveEnd?.Invoke();
         }
+
     }
 }
