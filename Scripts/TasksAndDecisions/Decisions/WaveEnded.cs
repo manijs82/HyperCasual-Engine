@@ -9,7 +9,6 @@ namespace HyperCasual_Engine.TasksAndDecisions
         
         protected override void MakeDecision()
         {
-            print(spawner.AreAllWavesEnded);
             InvokeDecision(!spawner.AreAllWavesEnded, stateOnTrue, stateOnFalse);
         }
 

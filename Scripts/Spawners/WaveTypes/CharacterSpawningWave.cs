@@ -22,7 +22,7 @@ namespace HyperCasual_Engine.Spawners
 
                 Character character = spawnObject.GetSpawnedObject() as Character;
                 Health health = character.GetAbility<Health>() as Health;
-                if(health == null)
+                if(health != null)
                     health.OnDeath.AddListener(OnEnemyDeath);
             }
         }

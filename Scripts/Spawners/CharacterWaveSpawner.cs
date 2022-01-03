@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace HyperCasual_Engine.Spawners
 {
@@ -35,6 +34,7 @@ namespace HyperCasual_Engine.Spawners
         {
             if(!IsFirstWave(spawningWave))
                 WaveEnded();
+
             yield return new WaitForSeconds(delayBetweenWaves);
             spawningWave.StartWave();
         }
