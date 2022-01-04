@@ -11,14 +11,14 @@ namespace HyperCasual_Engine.Camera
             go.AddComponent<UnityEngine.Camera>();
             go.AddComponent<AudioListener>();
             var cameraComp = go.AddComponent(type) as BaseCamera;
-            cameraComp.PreInit(target);
+            cameraComp.Init(target);
             
             return cameraComp;
         }
         
         [SerializeField] protected Transform target;
 
-        protected virtual void PreInit(Transform tar)
+        protected virtual void Init(Transform tar)
         {
             target = tar;
         }

@@ -54,5 +54,11 @@ namespace HyperCasual_Engine
         {
             return _inputSo.axes.FirstOrDefault(a => a.axisName == axisName);
         }
+
+        /// <summary>
+        /// changes the initial scriptable object (does not work at run-time)
+        /// </summary>
+        public void SetScriptableObject(InputsScriptableObject so) =>
+            inputScriptableObject = so;
     }
 }

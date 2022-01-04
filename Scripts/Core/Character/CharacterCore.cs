@@ -13,7 +13,10 @@ namespace HyperCasual_Engine
 
         private CharacterVisuals _visuals;
 
-        public void CreatePlayerVisuals() => 
+        public void CreatePlayerVisuals()
+        {
             _visuals = new CharacterVisuals(this, playerVisuals);
+            playerModel = _visuals.VisualsGameObject;
+        }
     }
 }
