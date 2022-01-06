@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using HyperCasual_Engine.Abilities;
 using UnityEngine;
 
 namespace HyperCasual_Engine
@@ -7,17 +8,23 @@ namespace HyperCasual_Engine
     public class Character : MonoBehaviour
     {
         public List<Ability> abilities;
+        public GameObject characterModel;
+        public Animator playerAnimator;
 
         private InputManager _inputManager;
         private Ability[] _frequentUseAbilities;
 
         public InputManager InputManager => _inputManager;
+        public MovementAbility Movement { get; private set; }
+
 
         private void Awake()
         {
             _inputManager = FindObjectOfType<InputManager>();
             if(_inputManager == null)
                 Debug.LogError("Could not find InputManager. Add the InputManager Script to you scene");
+            Movement = GetComponent<MovementAbility>();
+            
             _frequentUseAbilities = abilities.Where(a => a.UseInUpdate).ToArray();
             InitAbilities();
         }

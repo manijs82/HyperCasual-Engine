@@ -4,19 +4,17 @@ namespace HyperCasual_Engine
 {
     public class CharacterCore : Character
     {
-        [Header("Player Parameters")] 
-        public GameObject playerModel;
-        public Animator playerAnimator;
-        
         [Header("Player Creator")]
         public PlayerVisualsType playerVisuals;
+        public GameObject playerModel;
 
         private CharacterVisuals _visuals;
 
         public void CreatePlayerVisuals()
         {
             _visuals = new CharacterVisuals(this, playerVisuals);
-            playerModel = _visuals.VisualsGameObject;
+            characterModel = _visuals.VisualsGameObject;
+            playerAnimator = _visuals.VisualsGameObjectAnimator;
         }
     }
 }
