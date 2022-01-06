@@ -12,6 +12,7 @@ namespace HyperCasual_Engine.CameraTypes
         [SerializeField] private float maxDistanceFromTargetPosition;
         
         private Vector3 _targetPosition;
+        private Vector3 _currentPosition;
         
         protected override void FollowTarget()
         {
@@ -22,12 +23,12 @@ namespace HyperCasual_Engine.CameraTypes
                     transform.position = _targetPosition;
                     break;
                 case CameraMovingTypes.Smooth:
-                    Vector3 desiredPos = Vector3.MoveTowards(transform.position, _targetPosition, smoothMoveSpeed * Time.deltaTime);
-                    float distanceFromTarget = (_targetPosition - desiredPos).magnitude;
+                    _currentPosition = Vector3.MoveTowards(transform.position, _targetPosition, smoothMoveSpeed * Time.deltaTime);
+                    float distanceFromTarget = (_targetPosition - _currentPosition).magnitude;
                     if (distanceFromTarget > maxDistanceFromTargetPosition)
-                        desiredPos = _targetPosition + (desiredPos - _targetPosition).normalized * maxDistanceFromTargetPosition;
+                        _currentPosition = _targetPosition + (_currentPosition - _targetPosition).normalized * maxDistanceFromTargetPosition;
 
-                    transform.position = desiredPos;
+                    transform.position = _currentPosition;
                     break;
             }
         }

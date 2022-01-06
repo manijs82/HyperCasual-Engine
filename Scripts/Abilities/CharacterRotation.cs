@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace HyperCasual_Engine.Abilities
 {
@@ -48,13 +47,13 @@ namespace HyperCasual_Engine.Abilities
             
         }
 
-        public enum RotationSpeed
+        private enum RotationSpeed
         {
             Instant,
             Smooth
         }
-        
-        public enum RotationMode
+
+        private enum RotationMode
         {
             None,
             MoveDirection,

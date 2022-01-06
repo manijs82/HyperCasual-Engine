@@ -4,7 +4,10 @@ namespace HyperCasual_Engine.Abilities
 {
     public class MovementAbility : AbilityScriptableObjectData
     {
+        public float initialSpeed;
         [SerializeField] protected MovementAnimationHandler movementAnimationHandler;
+
+        [HideInInspector] public float currentSpeed;
         
         public virtual Vector3 MoveDirection => transform.forward;
 
@@ -12,6 +15,7 @@ namespace HyperCasual_Engine.Abilities
         {
             base.Init();
             movementAnimationHandler.Init(this, Owner.playerAnimator);
+            currentSpeed = initialSpeed;
         }
 
         public override void Use()

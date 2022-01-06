@@ -16,6 +16,12 @@ MonoBehaviour:
   - inputName: Jump
     pressType: 0
     button: 32
+  - inputName: StartSprinting
+    pressType: 0
+    button: 304
+  - inputName: StopSprinting
+    pressType: 2
+    button: 304
   mouseEvents:
   - inputName: LeftPressDown
     pressType: 0
