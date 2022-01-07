@@ -1,5 +1,5 @@
 # HyperCasual-Engine
- tool to make hyper casual games easily in unity.
+ set of tools in unity to make small games or prototypes fast and easiy without the need to code.
 
 ## Contents
 - Player buider : Many basic types of movement and some advanced ones are included. Player visualization is configarable in a few clicks. Many abilitys such as inventory and etc.
