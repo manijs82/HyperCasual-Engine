@@ -8,3 +8,7 @@
 - Input system: Create your input and utilize them.
 - State machine: create any state machine which works with tasks and decisions.
 - Level creator: bunch of tools to make creating levels easier.
+
+## Third party assets
+- ybot from mixamo : www.mixamo.com
+- Basic motions from Kevin Iglesias : https://assetstore.unity.com/packages/3d/animations/basic-motions-free-154271
