@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace HyperCasual_Engine.Editor
@@ -9,7 +10,7 @@ namespace HyperCasual_Engine.Editor
         private int _tabIndex;
         private HceWindowTab[] _tabs;
 
-        [MenuItem("HCE/Window")]
+        [MenuItem("Tools/HCE/Main Window")]
         private static void ShowWindow()
         {
             var window = GetWindow<HceWindow>();
@@ -29,16 +30,18 @@ namespace HyperCasual_Engine.Editor
             _tabs[1] = new CameraSetupTab();
             _tabs[2] = new LevelCreatorTab();
 
-            foreach (var tab in _tabs)
-            {
-                tab.Init();
-            }
+            foreach (var tab in _tabs) tab.OnEnable();
         }
 
         private void OnGUI()
         {
             _tabIndex = GUILayout.Toolbar(_tabIndex, _tabsNames);
             _tabs[_tabIndex].DrawTab();
+        }
+
+        private void OnDisable()
+        {
+            foreach (var tab in _tabs) tab.OnDisable();
         }
     }
 }

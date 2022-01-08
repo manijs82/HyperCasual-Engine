@@ -4,6 +4,8 @@
     {
         public abstract void DrawTab();
         
-        public abstract void Init();
+        public virtual void OnEnable() { }
+        
+        public virtual void OnDisable()  { }
     }
 }

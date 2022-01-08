@@ -5,7 +5,7 @@ namespace HyperCasual_Engine.Editor
 {
     public static class MagicButtons
     {
-        public static void SetUpScene()
+        public static void SetUpLevel()
         {
             // clean the scene
             foreach (var tr in Object.FindObjectsOfType<Transform>())
@@ -54,5 +54,17 @@ namespace HyperCasual_Engine.Editor
             Undo.RegisterCreatedObjectUndo(player, "set up scene");
             Undo.RegisterCreatedObjectUndo(camera, "set up scene");
         }
+
+        public static void SetUpMainMenu()
+        {
+            // clean the scene
+            foreach (var tr in Object.FindObjectsOfType<Transform>())
+            {
+                Undo.DestroyObjectImmediate(tr.gameObject);
+            }
+            
+            
+        }
+        
     }
 }

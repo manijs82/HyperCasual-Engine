@@ -9,7 +9,7 @@ namespace HyperCasual_Engine.Editor
         private ReflectedTypes _cameraTypes;  
         private Transform _playerTr;
 
-        public override void Init()
+        public override void OnEnable()
         {
             _cameraTypes = new ReflectedTypes(typeof(BaseCamera));   
         }

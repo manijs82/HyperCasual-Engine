@@ -9,8 +9,8 @@ namespace HyperCasual_Engine.LevelCreation
         public bool scalePrefab;
         public int heightLevel;
         [Header("Grid settings")]
-        [Range(1,20)]
-        public int gridSize = 1;
+        [Range(1,100)]
+        public int gridDistance = 5;
         [Range(1,20)]
         public int gridCellSize = 1;
     }

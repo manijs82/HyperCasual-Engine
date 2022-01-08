@@ -40,7 +40,7 @@ namespace HyperCasual_Engine.CameraTypes
         }
 
         #if UNITY_EDITOR
-        private void OnValidate()
+        private void OnDrawGizmos()
         {
             transform.position = target.position + movingOffset;
         }
