@@ -6,12 +6,12 @@ namespace HyperCasual_Engine.Editor
 {
     public class CameraSetupTab : HceWindowTab
     {
-        private ReflectedTypes _cameraTypes;  
+        private ReflectedTypes<BaseCamera> _cameraTypes;  
         private Transform _playerTr;
 
         public override void OnEnable()
         {
-            _cameraTypes = new ReflectedTypes(typeof(BaseCamera));   
+            _cameraTypes = new ReflectedTypes<BaseCamera>();   
         }
 
         public override void DrawTab()

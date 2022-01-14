@@ -9,11 +9,11 @@ namespace HyperCasual_Engine.Editor
     [CustomEditor(typeof(CharacterCore))]
     public class PlayerCoreEditor : UnityEditor.Editor
     {
-        private ReflectedTypes _movementTypes;
+        private ReflectedTypes<MovementAbility> _movementTypes;
         
         private void OnEnable()
         {
-            _movementTypes = new ReflectedTypes(typeof(MovementAbility));
+            _movementTypes = new ReflectedTypes<MovementAbility>();
         }
 
         public override void OnInspectorGUI()
