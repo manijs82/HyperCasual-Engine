@@ -1,5 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace HyperCasual_Engine.Editor
 {
@@ -63,7 +65,27 @@ namespace HyperCasual_Engine.Editor
                 Undo.DestroyObjectImmediate(tr.gameObject);
             }
             
+            // set up camera
+            GameObject camera = new GameObject("Camera");
+            camera.AddComponent<UnityEngine.Camera>();
+            camera.transform.position = new Vector3(0, 1, -10);
+            camera.tag = "MainCamera";
             
+            // set up Canvas
+            GameObject canvas = new GameObject("Canvas");
+            canvas.AddComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            canvas.AddComponent<GraphicRaycaster>();
+            canvas.AddComponent<UiCreator>();
+            
+            // set up EventSystem
+            GameObject eventSystem = new GameObject("EventSystem");
+            eventSystem.AddComponent<EventSystem>();
+            eventSystem.AddComponent<StandaloneInputModule>();
+            
+            Undo.RegisterCreatedObjectUndo(camera, "set up scene");
+            Undo.RegisterCreatedObjectUndo(canvas, "set up scene");
+            Undo.RegisterCreatedObjectUndo(eventSystem, "set up scene");
         }
         
     }

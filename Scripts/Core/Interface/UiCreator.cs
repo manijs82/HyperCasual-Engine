@@ -9,10 +9,10 @@ namespace HyperCasual_Engine
 
         public void CreateUi()
         {
-            componentTree.rootNode.value.CreateComponent(transform, null, true);
+            componentTree.rootNode.value.CreateComponent(gameObject, null, true);
             foreach (var node in componentTree.Collect(componentTree.rootNode))
             {
-                node.value.CreateComponent(transform, node.parent.value);
+                node.value.CreateComponent(gameObject, node.parent.value);
             }
         }
 

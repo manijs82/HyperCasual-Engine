@@ -18,12 +18,14 @@ namespace HyperCasual_Engine.Utils.TreeStructure
             this.value = value;
             children = new List<TreeNode<T>>();
             this.parent = parent;
-            this.rootDistance = parent.rootDistance + 1;
+            rootDistance = parent.rootDistance + 1;
         }
 
         public void AddChild(T child)
         {
             children.Add(new TreeNode<T>(this, child));
         }
+        
+        public void Remove() => parent.children.Remove(this);
     }
 }

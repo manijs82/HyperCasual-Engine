@@ -9,11 +9,13 @@ namespace HyperCasual_Engine.Editor
     {
         private UiCreator _uiCreator;
         private UnityObjectTree<UiComponent> _tree;
-        
+
         private void OnEnable()
         {
             _uiCreator = target as UiCreator;
             _tree = _uiCreator.componentTree;
+            if (_tree.rootNode == null)
+                _tree.rootNode = new TreeNode<UiComponent>(null, new UiComponent());
         }
 
         public override void OnInspectorGUI()
@@ -34,11 +36,19 @@ namespace HyperCasual_Engine.Editor
                 GUILayout.Space(node.rootDistance * 15);
                 
                 EditorGUILayout.LabelField("Node Name :", GUILayout.Width(75));
-                node.value.objectName = EditorGUILayout.TextField(node.value.objectName);
+                node.value.objectName = EditorGUILayout.TextField(node.value.objectName, GUILayout.Width(150));
                 EditorGUILayout.LabelField("Type :", GUILayout.Width(40));
                 node.value.type = (UiComponent.UiType) EditorGUILayout.EnumPopup(node.value.type, GUILayout.Width(100));
-                if (GUILayout.Button("Add Child")) 
+                if (GUILayout.Button("Remove"))
+                {
+                    Undo.RecordObject(_uiCreator, "Edited UI Creator");
+                    node.Remove();
+                }
+                if (GUILayout.Button("Add Child"))
+                {
+                    Undo.RecordObject(_uiCreator, "Edited UI Creator");
                     node.AddChild(new UiComponent());
+                }
             }
         }
     }

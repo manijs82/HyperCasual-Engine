@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace HyperCasual_Engine.Utils.TreeStructure
 {
@@ -18,6 +19,13 @@ namespace HyperCasual_Engine.Utils.TreeStructure
                 foreach (var child in Collect(node))
                     yield return child;
             }
+        }
+
+        public void Remove(TreeNode<T> node)
+        {
+            List<TreeNode<T>> allNodes = Collect(rootNode).ToList();
+            TreeNode<T> nd = allNodes.Find(n => n == node);
+            nd.parent.children.Remove(nd);
         }
     }
 }
