@@ -5,6 +5,7 @@ namespace HyperCasual_Engine.Abilities
     public class MovementAbility : AbilityScriptableObjectData
     {
         public float initialSpeed;
+        [SerializeField] protected bool useAnimations;
         [SerializeField] protected MovementAnimationHandler movementAnimationHandler;
 
         [HideInInspector] public float currentSpeed;
@@ -14,7 +15,8 @@ namespace HyperCasual_Engine.Abilities
         public override void Init()
         {
             base.Init();
-            movementAnimationHandler.Init(this, Owner.playerAnimator);
+            if(useAnimations)
+                movementAnimationHandler.Init(this, Owner.playerAnimator);
             currentSpeed = initialSpeed;
         }
 

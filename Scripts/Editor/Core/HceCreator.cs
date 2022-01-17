@@ -44,6 +44,16 @@ namespace HyperCasual_Engine.Editor
             Undo.RegisterCreatedObjectUndo(go, "Create " + go.name);
             Selection.activeObject = go;
         }
+        
+        [MenuItem("GameObject/HCE/Managers/GameManager", false, 10)]
+        static void CreateGameManager(MenuCommand menuCommand)
+        {
+            GameObject go = new GameObject("GameManager");
+            go.transform.position = Vector3.zero;
+            go.AddComponent<GameManager>();
+            Undo.RegisterCreatedObjectUndo(go, "Create " + go.name);
+            Selection.activeObject = go;
+        }
 
         private static GameObject CreatePlayer()
         {

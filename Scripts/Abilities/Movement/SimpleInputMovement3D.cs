@@ -33,10 +33,9 @@ namespace HyperCasual_Engine.Abilities
             _nextDirection = Vector3.MoveTowards(_nextDirection, _targetDirection, acceleration).normalized;
 
             if(_nextDirection.magnitude > startMovingThreshold)
-            {
                 transform.position += _nextDirection * (currentSpeed * Time.deltaTime);
-            }
-            UpdateAnimatorHandler();
+            if(useAnimations)
+                UpdateAnimatorHandler();
         }
 
         private void DetermineMoveDirection()
