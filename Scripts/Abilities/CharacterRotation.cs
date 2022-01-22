@@ -4,9 +4,7 @@ namespace HyperCasual_Engine.Abilities
 {
     public class CharacterRotation : AbilityScriptableObjectData
     {
-        [SerializeField] private Transform objectToRotate;
         [SerializeField] private RotationMode rotationMode;
-        [SerializeField] private RotationSpeed rotationSpeed;
 
         private MovementAbility _movement;
         private Quaternion _newRotation;
@@ -33,7 +31,7 @@ namespace HyperCasual_Engine.Abilities
                     break;
             }
 
-            objectToRotate.rotation = _newRotation;
+            Owner.characterModel.transform.rotation = _newRotation;
         }
 
         private void RotateTowardsMoveDirection()

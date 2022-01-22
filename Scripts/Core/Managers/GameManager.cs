@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace HyperCasual_Engine
@@ -12,6 +13,7 @@ namespace HyperCasual_Engine
 
         private void Awake()
         {
+            SaveLoadManager.InitSaveData();
             _sceneLoader = GetComponent<SceneLoader>();
             if(_sceneLoader == null)
                 _sceneLoader = gameObject.AddComponent<SceneLoader>();
@@ -20,6 +22,17 @@ namespace HyperCasual_Engine
         public void LoadLevel(int levelNumber)
         {
             _sceneLoader.LoadSceneAsync(levelsPrefix + levelNumber, sceneLoadingMethod);
+        }
+
+        private void OnApplicationQuit()
+        {
+            SaveLoadManager.UpdateSaveFile();
+        }
+
+        private void OnApplicationFocus(bool hasFocus)
+        {
+            if(!hasFocus)
+                SaveLoadManager.UpdateSaveFile();
         }
     }
 }

@@ -1,4 +1,4 @@
-using HyperCasual_Engine.LevelCreation;
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,11 +9,7 @@ namespace HyperCasual_Engine.Editor
         [MenuItem("GameObject/HCE/LevelEditor", false, 10)]
         static void CreateLevelEditor(MenuCommand menuCommand)
         {
-            GameObject go = new GameObject("LevelEditor");
-            go.transform.position = Vector3.zero;
-            go.AddComponent<LevelEditorObject>();
-            Undo.RegisterCreatedObjectUndo(go, "Create " + go.name);
-            Selection.activeObject = go;
+            CreateObject(typeof(LevelEditor), "LevelEditor");
         }
         
         [MenuItem("GameObject/HCE/Player/Empty", false, 10)]
@@ -28,29 +24,32 @@ namespace HyperCasual_Engine.Editor
         [MenuItem("GameObject/HCE/Managers/InputManager", false, 10)]
         static void CreateInputManager(MenuCommand menuCommand)
         {
-            GameObject go = new GameObject("InputManager");
-            go.transform.position = Vector3.zero;
-            go.AddComponent<InputManager>();
-            Undo.RegisterCreatedObjectUndo(go, "Create " + go.name);
-            Selection.activeObject = go;
+            CreateObject(typeof(InputManager), "InputManager");
         }
         
         [MenuItem("GameObject/HCE/Managers/LevelManager", false, 10)]
         static void CreateLevelManager(MenuCommand menuCommand)
         {
-            GameObject go = new GameObject("LevelManager");
-            go.transform.position = Vector3.zero;
-            go.AddComponent<LevelManager>();
-            Undo.RegisterCreatedObjectUndo(go, "Create " + go.name);
-            Selection.activeObject = go;
+            CreateObject(typeof(LevelManager), "LevelManager");
         }
         
         [MenuItem("GameObject/HCE/Managers/GameManager", false, 10)]
         static void CreateGameManager(MenuCommand menuCommand)
         {
-            GameObject go = new GameObject("GameManager");
+            CreateObject(typeof(GameManager), "GameManager");
+        }
+        
+        [MenuItem("GameObject/HCE/Managers/ScoreManager", false, 10)]
+        static void CreateScoreManager(MenuCommand menuCommand)
+        {
+            CreateObject(typeof(ScoreManager), "ScoreManager");
+        }
+
+        static void CreateObject(Type type, string name)
+        {
+            GameObject go = new GameObject(name);
             go.transform.position = Vector3.zero;
-            go.AddComponent<GameManager>();
+            go.AddComponent(type);
             Undo.RegisterCreatedObjectUndo(go, "Create " + go.name);
             Selection.activeObject = go;
         }
