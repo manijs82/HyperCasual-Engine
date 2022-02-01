@@ -1,4 +1,6 @@
-﻿namespace HyperCasual_Engine.Editor
+﻿using UnityEditor;
+
+namespace HyperCasual_Engine.Editor
 {
     public abstract class HceWindowTab
     {

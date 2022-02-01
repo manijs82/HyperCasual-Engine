@@ -14,59 +14,123 @@ namespace HyperCasual_Engine
         
         public UiType type;
         public string objectName;
-
-        [HideInInspector] public GameObject gameObject;
         
-        public void CreateComponent(GameObject canvas, UiComponent parentComponent, bool isRoot = false)
+        public GameObject CreateComponent(Transform parentObject, UiComponent parentComponent)
         {
-            switch (type)
+            return type switch
             {
-                case UiType.Button:
-                    CreateButton(isRoot ? canvas : parentComponent.gameObject);
-                    break;
-                case UiType.Panel:
-                    CreatePanel(isRoot ? canvas : parentComponent.gameObject);
-                    break;
-                case UiType.Text:
-                    break;
-            }
+                UiType.Button => CreateButton(parentObject, parentComponent),
+                UiType.Panel => CreatePanel(parentObject, parentComponent),
+                UiType.Text => CreateText(parentObject, parentComponent),
+                UiType.Background => CreateBackground(parentObject, parentComponent),
+                UiType.Image => CreateBackground(parentObject, parentComponent),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
-        private void CreateButton(GameObject parent)
+        private GameObject CreateButton(Transform parent, UiComponent parentComponent)
         {
-            gameObject = CreateGameObject(() => DefaultControls.CreateButton(new DefaultControls.Resources()));
+            var gameObject = DefaultControls.CreateButton(new DefaultControls.Resources());
             UnityEngine.Object.DestroyImmediate(gameObject.GetComponentInChildren<Text>());
             var text = gameObject.transform.GetChild(0).gameObject.AddComponent<TextMeshProUGUI>();
             text.text = objectName;
             text.alignment = TextAlignmentOptions.Midline;
             text.color = Color.black;
-            Undo.RegisterCreatedObjectUndo(gameObject, UNDO_MASSAGE);
             gameObject.name = objectName;
-            gameObject.transform.SetParent(parent.transform);
+            gameObject.transform.SetParent(parent);
+            
+            if (parentComponent is {type: UiType.Panel}) 
+                gameObject.transform.SetParent(parent.GetChild(0));
+
+            Undo.RegisterCreatedObjectUndo(gameObject, UNDO_MASSAGE);
+            
+            return gameObject;
         }
         
-        private void CreatePanel(GameObject parent)
+        private GameObject CreateText(Transform parent, UiComponent parentComponent)
         {
-            gameObject = CreateGameObject(() => DefaultControls.CreatePanel(new DefaultControls.Resources()));
-            Undo.RegisterCreatedObjectUndo(gameObject, UNDO_MASSAGE);
+            var gameObject = DefaultControls.CreateText(new DefaultControls.Resources());
+            UnityEngine.Object.DestroyImmediate(gameObject.GetComponent<Text>());
+            var text = gameObject.AddComponent<TextMeshProUGUI>();
+            text.text = objectName;
+            text.alignment = TextAlignmentOptions.Midline;
+            text.color = Color.black;
             gameObject.name = objectName;
-            gameObject.transform.SetParent(parent.transform);
-            gameObject.GetComponent<RectTransform>().StretchToAllSides();
-            var group = gameObject.AddComponent<VerticalLayoutGroup>();
-            group.childAlignment = TextAnchor.MiddleCenter;
+            gameObject.transform.SetParent(parent);
+            
+            if (parentComponent is {type: UiType.Panel}) 
+                gameObject.transform.SetParent(parent.GetChild(0));
+            
+            Undo.RegisterCreatedObjectUndo(gameObject, UNDO_MASSAGE);
+            
+            return gameObject;
         }
-
-        private GameObject CreateGameObject(Func<GameObject> createFunction)
+        
+        private GameObject CreateImage(Transform parent, UiComponent parentComponent)
         {
-            GameObject obj = createFunction.Invoke();
-            return obj;
+            var gameObject = DefaultControls.CreateImage(new DefaultControls.Resources());
+            gameObject.name = objectName;
+            gameObject.transform.SetParent(parent);
+            
+            if (parentComponent is {type: UiType.Panel}) 
+                gameObject.transform.SetParent(parent.GetChild(0));
+            
+            Undo.RegisterCreatedObjectUndo(gameObject, UNDO_MASSAGE);
+            
+            return gameObject;
+        }
+        
+        private GameObject CreatePanel(Transform parent, UiComponent parentComponent)
+        {
+            var panelPrefab = Resources.Load("Prefabs/UI/UiPanel");
+            if (panelPrefab == null) return null;
+            var gameObject = PrefabUtility.InstantiatePrefab(panelPrefab) as GameObject;
+            gameObject.name = objectName;
+            gameObject.transform.SetParent(parent);
+
+            if (parentComponent is {type: UiType.Button})
+            {
+                var parentObj = GameObject.Find(parentComponent.objectName);
+                gameObject.transform.SetParent(parentObj.transform.parent);
+                var button = parentObj.GetComponent<UnityEngine.UI.Button>();
+                var panel = gameObject.GetComponent<UiPanel>();
+                panel.openButton = button;
+                panel.Close();
+            }
+            gameObject.GetComponent<RectTransform>().MakeFullScreen();
+            
+            Undo.RegisterCreatedObjectUndo(gameObject, UNDO_MASSAGE);
+
+            return gameObject;
+        }
+        
+        private GameObject CreateBackground(Transform parent, UiComponent parentComponent)
+        {
+            var panelPrefab = Resources.Load("Prefabs/UI/Background");
+            if (panelPrefab == null) return null;
+            var gameObject = PrefabUtility.InstantiatePrefab(panelPrefab) as GameObject;
+            gameObject.name = objectName;
+            gameObject.transform.SetParent(parent);
+            gameObject.GetComponent<RectTransform>().MakeFullScreen();
+            
+            if (parentComponent is {type: UiType.Panel})
+            {
+                gameObject.transform.SetParent(parent.GetChild(0));
+                gameObject.transform.SetAsFirstSibling();
+            }
+
+            Undo.RegisterCreatedObjectUndo(gameObject, UNDO_MASSAGE);
+            
+            return gameObject;
         }
 
         public enum UiType
         {
             Button,
             Panel,
-            Text
+            Text,
+            Background,
+            Image
         }
     }
 }

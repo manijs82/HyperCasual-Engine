@@ -4,7 +4,7 @@ namespace HyperCasual_Engine.Utils
 {
     public static class RectTransformUtils
     {
-        public static void StretchToAllSides(this RectTransform rectTransform)
+        public static void MakeFullScreen(this RectTransform rectTransform)
         {
             rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, 0);
             rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, 0);

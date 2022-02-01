@@ -1,14 +1,14 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace HyperCasual_Engine.Editor
 {
     public class HceWindow : EditorWindow
     {
-        private readonly string[] _tabsNames = {"Magic Buttons", "Camera", "Level"};
+        public HceWindowTab[] Tabs;
+        
+        private readonly string[] _tabsNames = {"Magic Buttons", "Camera"};
         private int _tabIndex;
-        private HceWindowTab[] _tabs;
 
         [MenuItem("Tools/HCE/Main Window")]
         private static void ShowWindow()
@@ -25,23 +25,22 @@ namespace HyperCasual_Engine.Editor
 
         private void InitTabs()
         {
-            _tabs = new HceWindowTab[_tabsNames.Length];
-            _tabs[0] = new MagicButtonsTab();
-            _tabs[1] = new CameraSetupTab();
-            _tabs[2] = new LevelCreatorTab();
+            Tabs = new HceWindowTab[_tabsNames.Length];
+            Tabs[0] = new MagicButtonsTab();
+            Tabs[1] = new CameraSetupTab();
 
-            foreach (var tab in _tabs) tab.OnEnable();
+            foreach (var tab in Tabs) tab.OnEnable();
         }
 
         private void OnGUI()
         {
             _tabIndex = GUILayout.Toolbar(_tabIndex, _tabsNames);
-            _tabs[_tabIndex].DrawTab();
+            Tabs[_tabIndex].DrawTab();
         }
 
         private void OnDisable()
         {
-            foreach (var tab in _tabs) tab.OnDisable();
+            foreach (var tab in Tabs) tab.OnDisable();
         }
     }
 }

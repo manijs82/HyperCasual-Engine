@@ -9,7 +9,8 @@ namespace HyperCasual_Engine.Editor
         private SerializedProperty propOpeningAndClosingMethod;
         private SerializedProperty propOpeningAndClosingStyle;
         private SerializedProperty propInputManager;
-        private SerializedProperty propUiButton;
+        private SerializedProperty propOpenButton;
+        private SerializedProperty propCloseButton;
         private SerializedProperty propOnPanelOpen;
         private SerializedProperty propOnPanelClose;
         
@@ -18,7 +19,8 @@ namespace HyperCasual_Engine.Editor
             propOpeningAndClosingMethod = serializedObject.FindProperty("openingAndClosingMethod");
             propOpeningAndClosingStyle = serializedObject.FindProperty("openingAndClosingStyle");
             propInputManager = serializedObject.FindProperty("inputManager");
-            propUiButton = serializedObject.FindProperty("uiButton");
+            propOpenButton = serializedObject.FindProperty("openButton");
+            propCloseButton = serializedObject.FindProperty("closeButton");
             propOnPanelOpen = serializedObject.FindProperty("onPanelOpen");
             propOnPanelClose = serializedObject.FindProperty("onPanelClose");
         }
@@ -37,7 +39,16 @@ namespace HyperCasual_Engine.Editor
             if (propOpeningAndClosingMethod.enumValueIndex == (int)UiPanel.Method.ButtonPress)
                 EditorGUILayout.PropertyField(propInputManager);
             if (propOpeningAndClosingMethod.enumValueIndex == (int)UiPanel.Method.UiButton)
-                EditorGUILayout.PropertyField(propUiButton);
+            {
+                EditorGUILayout.PropertyField(propOpenButton);
+                EditorGUILayout.PropertyField(propCloseButton);
+            }
+            if (propOpeningAndClosingMethod.enumValueIndex == (int)UiPanel.Method.Both)
+            {
+                EditorGUILayout.PropertyField(propInputManager);
+                EditorGUILayout.PropertyField(propOpenButton);
+                EditorGUILayout.PropertyField(propCloseButton);
+            }
             
             if(propOpeningAndClosingStyle.enumValueIndex == (int)UiPanel.Style.Animation)
             {

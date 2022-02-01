@@ -1,4 +1,5 @@
 using System;
+using HyperCasual_Engine.LevelCreation;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace HyperCasual_Engine.Editor
         [MenuItem("GameObject/HCE/LevelEditor", false, 10)]
         static void CreateLevelEditor(MenuCommand menuCommand)
         {
-            CreateObject(typeof(LevelEditor), "LevelEditor");
+            CreateObject(typeof(LevelCreator), "LevelCreator");
         }
         
         [MenuItem("GameObject/HCE/Player/Empty", false, 10)]

@@ -9,16 +9,20 @@ namespace HyperCasual_Engine
 
         public void CreateUi()
         {
-            componentTree.rootNode.value.CreateComponent(gameObject, null, true);
+            DestroyUi();
+            componentTree.rootNode.value.CreateComponent(transform, componentTree.rootNode.value);
             foreach (var node in componentTree.Collect(componentTree.rootNode))
             {
-                node.value.CreateComponent(gameObject, node.parent.value);
+                var parent = GameObject.Find(node.parent.value.objectName);
+                node.value.CreateComponent(parent.transform, node.parent.value);
             }
         }
 
         public void DestroyUi()
         {
-            
+            if(transform.childCount == 0) return;
+            for (int i = transform.childCount - 1; i >= 0; i--) 
+                DestroyImmediate(transform.GetChild(i).gameObject);
         }
     }
 }

@@ -5,13 +5,14 @@ namespace HyperCasual_Engine
 {
     public class UiPanel : MonoBehaviour
     {
-        public enum Method { ButtonPress, UiButton }
+        public enum Method { ButtonPress, UiButton, Both }
         public enum Style { Activation, Animation }
         
         public Method openingAndClosingMethod;
         public Style openingAndClosingStyle;
         public InputManager inputManager;
-        public UnityEngine.UI.Button uiButton;
+        public UnityEngine.UI.Button openButton;
+        public UnityEngine.UI.Button closeButton;
         public UnityEvent onPanelOpen;
         public UnityEvent onPanelClose;
 
@@ -26,6 +27,7 @@ namespace HyperCasual_Engine
         {
             _animator = GetComponent<Animator>();
             _panelObject = transform.GetChild(0).gameObject;
+            if (inputManager == null) inputManager = FindObjectOfType<InputManager>();
             InitializeOpeningEvent();
         }
 
@@ -67,14 +69,24 @@ namespace HyperCasual_Engine
 
         private void InitializeOpeningEvent()
         {
-            if (openingAndClosingMethod == Method.UiButton) uiButton.onClick.AddListener(Toggle);
-            if(openingAndClosingMethod == Method.ButtonPress) inputManager.AddListenerToButton("Pause", Toggle);
+            if (openingAndClosingMethod == Method.UiButton || openingAndClosingMethod == Method.Both)
+            {
+                openButton.onClick.AddListener(Open);
+                closeButton.onClick.AddListener(Close);
+            }
+            if(openingAndClosingMethod == Method.ButtonPress || openingAndClosingMethod == Method.Both) 
+                inputManager.AddListenerToButton("Pause", Toggle);
         }
         
         private void DeInitializeOpeningEvent()
         {
-            if (openingAndClosingMethod == Method.UiButton) uiButton.onClick.RemoveListener(Toggle);
-            if(openingAndClosingMethod == Method.ButtonPress) inputManager.RemoveListenerToButton("Pause", Toggle);
+            if (openingAndClosingMethod == Method.UiButton || openingAndClosingMethod == Method.Both)
+            {
+                openButton.onClick.RemoveListener(Open);
+                closeButton.onClick.RemoveListener(Close);
+            }
+            if(openingAndClosingMethod == Method.ButtonPress || openingAndClosingMethod == Method.Both) 
+                inputManager.RemoveListenerToButton("Pause", Toggle);
         }
 
         private void OnDisable()

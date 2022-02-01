@@ -13,9 +13,9 @@ namespace HyperCasual_Engine.Editor
         private void OnEnable()
         {
             _uiCreator = target as UiCreator;
+            _uiCreator.componentTree ??= new UnityObjectTree<UiComponent>();
             _tree = _uiCreator.componentTree;
-            if (_tree.rootNode == null)
-                _tree.rootNode = new TreeNode<UiComponent>(null, new UiComponent());
+            _tree.rootNode ??= new TreeNode<UiComponent>(null, new UiComponent());
         }
 
         public override void OnInspectorGUI()
