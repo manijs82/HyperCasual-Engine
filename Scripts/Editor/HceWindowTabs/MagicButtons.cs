@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using System.Diagnostics;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,6 +9,8 @@ namespace HyperCasual_Engine.Editor
 {
     public static class MagicButtons
     {
+        #if UNITY_EDITOR
+        
         public static void SetUpLevel()
         {
             // clean the scene
@@ -87,6 +91,44 @@ namespace HyperCasual_Engine.Editor
             Undo.RegisterCreatedObjectUndo(canvas, "set up scene");
             Undo.RegisterCreatedObjectUndo(eventSystem, "set up scene");
         }
+
+        public static void ClearPlayerPrefs()
+        {
+            PlayerPrefs.DeleteAll();
+        }
         
+        public static void ClearPersistentDataPath()
+        {
+            DirectoryInfo di = new DirectoryInfo(Application.persistentDataPath);
+
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete(); 
+            }
+            foreach (DirectoryInfo dir in di.GetDirectories())
+            {
+                dir.Delete(true); 
+            }
+        }
+
+        public static void OpenPersistentDataPath()
+        {
+            Process.Start(Application.persistentDataPath);
+        }
+
+        public static void ParentSelectedObject(string parentName)
+        {
+            var selectedObjects = Selection.transforms;
+            var newParent = new GameObject(parentName).transform;
+            Undo.RegisterCreatedObjectUndo(newParent.gameObject, "Set parents");
+            foreach (var transform in selectedObjects)
+            {
+                Undo.SetTransformParent(transform, newParent, "Set parents");
+            }
+
+            Selection.activeObject = newParent.gameObject;
+        }
+        
+        #endif
     }
 }
