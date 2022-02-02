@@ -61,7 +61,7 @@ namespace HyperCasual_Engine
         
         public void CreateAndAddAbilityWithUndo(Type abilityType)
         {
-            if(abilityType != typeof(Ability)) return;
+            if(!typeof(Ability).IsAssignableFrom(abilityType)) return;
             var ability = Undo.AddComponent(gameObject, abilityType) as Ability;
             AddAbilityWithUndo(ability);
         }

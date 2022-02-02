@@ -29,13 +29,15 @@ namespace HyperCasual_Engine.Editor
         {
             base.OnInspectorGUI();
 
-            if (GUILayout.Button("Setup Visuals")) RegisterPlayerVisuals(_target);
+            if (GUILayout.Button("Setup Visuals")) _target.CreatePlayerVisuals();
+            if (GUILayout.Button("Remove Visuals")) _target.RemovePlayerVisuals();
             
             EditorGUILayout.Separator();
 
             using (new EditorGUILayout.HorizontalScope())
             {
-                if (GUILayout.Button("Add Ability")) RegisterAbility(_target);
+                if (GUILayout.Button("Add Ability")) 
+                    _target.CreateAndAddAbilityWithUndo(_abilityTypes.Types[_abilityTypes.TypeChoiceIndex]);
                 _abilityTypes.TypeChoiceIndex = EditorGUILayout.Popup("Ability Type", _abilityTypes.TypeChoiceIndex, _abilityTypes.TypesNames);
             }
             using (new EditorGUILayout.HorizontalScope())
@@ -61,11 +63,5 @@ namespace HyperCasual_Engine.Editor
                 }
             }
         }
-
-        private void RegisterPlayerVisuals(CharacterCore core) => 
-            core.CreatePlayerVisuals();
-
-        private void RegisterAbility(CharacterCore core) => 
-            core.CreateAndAddAbilityWithUndo(_abilityTypes.Types[_abilityTypes.TypeChoiceIndex]);
     }
 }
