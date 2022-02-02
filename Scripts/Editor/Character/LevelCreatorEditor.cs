@@ -54,7 +54,10 @@ namespace HyperCasual_Engine.Editor
                 InitLevelCreator();
             
             if(_target.transform.hasChanged)
+            {
                 InitLevelCreator();
+                _target.transform.hasChanged = false;
+            }
         }
 
         private void OnSceneGUI()

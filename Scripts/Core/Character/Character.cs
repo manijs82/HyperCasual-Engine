@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using HyperCasual_Engine.Abilities;
+using UnityEditor;
 using UnityEngine;
 
 namespace HyperCasual_Engine
@@ -55,6 +57,35 @@ namespace HyperCasual_Engine
         {
             abilities.Add(ability);
             ability.Init();
+        }
+        
+        public void CreateAndAddAbilityWithUndo(Type abilityType)
+        {
+            if(abilityType != typeof(Ability)) return;
+            var ability = Undo.AddComponent(gameObject, abilityType) as Ability;
+            AddAbilityWithUndo(ability);
+        }
+
+        public void AddAbilityWithUndo(Ability ability)
+        {
+            Undo.RecordObject(this, "Edit Character");
+            abilities.Add(ability);
+            ability.Init();
+        }
+        
+        public void RemoveAndDestroyAbilityWithUndo(Ability ability)
+        {
+            RemoveAbilityWithUndo(ability);
+            Undo.DestroyObjectImmediate(ability);
+        }
+        
+        public void RemoveAbility(Ability ability) =>
+            abilities.Remove(ability);
+        
+        public void RemoveAbilityWithUndo(Ability ability)
+        { 
+            Undo.RecordObject(this, "Edit Character");
+            abilities.Remove(ability);
         }
 
         public bool HasAbility<T>() where T : Ability => 

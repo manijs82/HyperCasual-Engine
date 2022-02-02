@@ -9,44 +9,55 @@ namespace HyperCasual_Engine.Editor
     [CustomEditor(typeof(CharacterCore))]
     public class PlayerCoreEditor : UnityEditor.Editor
     {
-        private ReflectedTypes<MovementAbility> _movementTypes;
+        private CharacterCore _target;
+        
+        private ReflectedTypes<Ability> _abilityTypes;
+        
+        private string[] _currentAbilitiesNames;
+        private int _removeAbilityIndex;
         
         private void OnEnable()
         {
-            _movementTypes = new ReflectedTypes<MovementAbility>();
+            _target = target as CharacterCore;
+            _abilityTypes = new ReflectedTypes<Ability>();
+            _currentAbilitiesNames = new string[_target.abilities.Count];
+            for (var i = 0; i < _currentAbilitiesNames.Length; i++)
+                _currentAbilitiesNames[i] = ObjectNames.NicifyVariableName(_target.abilities[i].GetType().Name);
         }
 
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            
-            var t = target as CharacterCore;
-            if(t == null) return;
-            
-            _movementTypes.TypeChoiceIndex = EditorGUILayout.Popup("Movement Type", _movementTypes.TypeChoiceIndex, _movementTypes.TypesNames);
+
+            if (GUILayout.Button("Setup Visuals")) RegisterPlayerVisuals(_target);
             
             EditorGUILayout.Separator();
 
-            EditorGUILayout.BeginHorizontal();
-            
-            if (GUILayout.Button("Add Movement")) RegisterPlayerMovement(t);
-
-            if (GUILayout.Button("Setup Visuals")) RegisterPlayerVisuals(t);
-
-            EditorGUILayout.EndHorizontal();
-            
-            if (GUILayout.Button("Remove Components"))
+            using (new EditorGUILayout.HorizontalScope())
             {
-                t.abilities.Clear();
-                foreach (var component in t.gameObject.GetComponents(typeof(Component)))
+                if (GUILayout.Button("Add Ability")) RegisterAbility(_target);
+                _abilityTypes.TypeChoiceIndex = EditorGUILayout.Popup("Ability Type", _abilityTypes.TypeChoiceIndex, _abilityTypes.TypesNames);
+            }
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                if (GUILayout.Button("Remove Ability")) _target.RemoveAndDestroyAbilityWithUndo(_target.abilities[_removeAbilityIndex]);
+                _removeAbilityIndex = EditorGUILayout.Popup("Ability Type", _removeAbilityIndex, _currentAbilitiesNames);
+            }
+            
+            EditorGUILayout.Separator();
+            
+            if (GUILayout.Button("Clear Player"))
+            {
+                _target.abilities.Clear();
+                foreach (var component in _target.gameObject.GetComponents(typeof(Component)))
                 {
                     if(component is Ability)
                         DestroyImmediate(component);
                 }
 
-                for (int i = t.transform.childCount - 1; i >= 0; i--)
+                for (int i = _target.transform.childCount - 1; i >= 0; i--)
                 {
-                    DestroyImmediate(t.transform.GetChild(i).gameObject);
+                    DestroyImmediate(_target.transform.GetChild(i).gameObject);
                 }
             }
         }
@@ -54,10 +65,7 @@ namespace HyperCasual_Engine.Editor
         private void RegisterPlayerVisuals(CharacterCore core) => 
             core.CreatePlayerVisuals();
 
-        private void RegisterPlayerMovement(CharacterCore core)
-        {
-            var moveComponent = Undo.AddComponent(core.gameObject, _movementTypes.Types[_movementTypes.TypeChoiceIndex]);
-            core.AddAbility(moveComponent as MovementAbility);
-        }
+        private void RegisterAbility(CharacterCore core) => 
+            core.CreateAndAddAbilityWithUndo(_abilityTypes.Types[_abilityTypes.TypeChoiceIndex]);
     }
 }

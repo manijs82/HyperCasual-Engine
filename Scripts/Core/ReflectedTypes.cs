@@ -1,5 +1,6 @@
 ﻿using System;
 using HyperCasual_Engine.Utils;
+using UnityEditor;
 
 namespace HyperCasual_Engine
 {
@@ -15,7 +16,7 @@ namespace HyperCasual_Engine
             
             TypesNames = new string[Types.Length];
             for (int i = 0; i < TypesNames.Length; i++) 
-                TypesNames[i] = Types[i].Name;
+                TypesNames[i] = ObjectNames.NicifyVariableName(Types[i].Name);
         }
 
         public Type GetTypeFromString(string typeName)

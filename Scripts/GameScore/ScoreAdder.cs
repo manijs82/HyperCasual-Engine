@@ -9,11 +9,13 @@ namespace HyperCasual_Engine
         
         public void AddScore(int amount)
         {
+            if(ScoreManager.Instance == null) return;
             ScoreManager.Instance.AddToScore(scoreProfileName, amount);
         }
         
         public void SetScore(int amount)
         {
+            if(ScoreManager.Instance == null) return;
             if (highScore)
             {
                 if (ScoreManager.Instance.GetScoreValue(scoreProfileName) < amount)

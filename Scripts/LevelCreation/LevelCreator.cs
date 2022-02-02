@@ -21,8 +21,9 @@ namespace HyperCasual_Engine.LevelCreation
         
         public void Init()
         {
-            _plane = new Plane(Vector3.up, transform.position.y);
-            _grid = new Grid(30, 30, gridCellSize, transform.position);
+            var position = transform.position;
+            _plane = new Plane(Vector3.up, position);
+            _grid = new Grid(30, 30, gridCellSize, new Vector3(0, position.y, 0));
         }
         
         private void OnEnable()
@@ -105,8 +106,7 @@ namespace HyperCasual_Engine.LevelCreation
             if (_previewGameObject == null) return;
             Ray ray = GetMouseRay();
 
-            if (_plane.Raycast(ray, out float enter))
-                if (Physics.Raycast(ray, enter)) return;
+            if (Physics.Raycast(ray)) return;
 
             _previewGameObject.hideFlags = HideFlags.None;
             Undo.RegisterCreatedObjectUndo(_previewGameObject, "Create " + _previewGameObject.name);

@@ -8,7 +8,7 @@ namespace HyperCasual_Engine.Abilities
 
         private void Update()
         {
-            transform.Translate(transform.forward * (speed * Time.deltaTime));
+            transform.position += transform.forward * (speed * Time.deltaTime);
         }
     }
 }

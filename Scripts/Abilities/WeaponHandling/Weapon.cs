@@ -22,6 +22,5 @@ namespace HyperCasual_Engine.Abilities
         {
             health.Damage(amount);
         }
-
     }
 }

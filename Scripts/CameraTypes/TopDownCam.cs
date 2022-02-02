@@ -1,4 +1,5 @@
 ﻿using HyperCasual_Engine.Camera;
+using UnityEditor;
 using UnityEngine;
 
 namespace HyperCasual_Engine.CameraTypes
@@ -8,15 +9,15 @@ namespace HyperCasual_Engine.CameraTypes
         [SerializeField] private Vector3 movingOffset;
         [SerializeField] private CameraMovingTypes movingTypes;
         [SerializeField] private bool lookAtTarget;
-        [SerializeField] private float smoothMoveSpeed;
-        [SerializeField] private float maxDistanceFromTargetPosition;
+        [SerializeField] private float smoothMoveSpeed = 4;
+        [SerializeField] private float maxDistanceFromTargetPosition = 3;
         
         private Vector3 _targetPosition;
         private Vector3 _currentPosition;
         
         protected override void FollowTarget()
         {
-            _targetPosition = target.position + movingOffset;
+            _targetPosition = GetTargetPosition();
             switch (movingTypes)
             {
                 case CameraMovingTypes.Instant:
@@ -39,10 +40,21 @@ namespace HyperCasual_Engine.CameraTypes
                 transform.LookAt(target);
         }
 
+        private Vector3 GetTargetPosition()
+        {
+            return target.TransformPoint(movingOffset);
+        }
+
         #if UNITY_EDITOR
+
+        private void OnValidate()
+        {
+            SceneView.RepaintAll();
+        }
+
         private void OnDrawGizmos()
         {
-            transform.position = target.position + movingOffset;
+            transform.position = GetTargetPosition();
         }
         #endif
     }

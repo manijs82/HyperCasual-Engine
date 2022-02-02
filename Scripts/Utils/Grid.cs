@@ -63,7 +63,7 @@ namespace HyperCasual_Engine.Utils
             float x = Mathf.Round(pos.x / cellSize) * cellSize;
             float z = Mathf.Round(pos.z / cellSize) * cellSize;
 
-            return new Vector3(x, origin.y, z);
+            return new Vector3(x + origin.x, origin.y, z + origin.z);
         }
     }
 }
