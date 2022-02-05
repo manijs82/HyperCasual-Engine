@@ -118,6 +118,8 @@ namespace HyperCasual_Engine.Editor
 
         public static void ParentSelectedObject(string parentName)
         {
+            if(Selection.count == 0) return;
+            
             var selectedObjects = Selection.transforms;
             var newParent = new GameObject(parentName).transform;
             Undo.RegisterCreatedObjectUndo(newParent.gameObject, "Set parents");

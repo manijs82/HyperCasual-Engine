@@ -6,17 +6,24 @@ namespace HyperCasual_Engine.Attributes
     [Serializable]
     public class AttributeCollection
     {
-        public List<Attribute> attributes;
+        public List<AttributeBase> attributes;
 
-        public AttributeCollection(List<Attribute> attributes)
+        public int Count => attributes.Count;
+
+        public AttributeCollection(List<AttributeBase> attributes)
         {
             this.attributes = attributes;
         }
-
-        public void AddAttribute<T>() where T : Attribute
+        
+        public void AddAttribute(AttributeBase attribute)
         {
-            T instance = (T)Activator.CreateInstance(typeof(T));
-            attributes.Add(instance);
+            attributes.Add(attribute);
+        }
+        
+        public void RemoveAttribute(AttributeBase attribute)
+        {
+            if(attributes.Contains(attribute))
+                attributes.Remove(attribute);
         }
     }
 }

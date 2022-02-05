@@ -15,7 +15,16 @@ MonoBehaviour:
   itemDefinitions:
   - itemName: Gold
     attributeCollection:
-      attributes: []
+      attributes:
+      - id: 0
+    nextAttributeType: 0
   - itemName: Silver
     attributeCollection:
       attributes: []
+    nextAttributeType: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: IntAttribute, ns: HyperCasual_Engine.Attributes, asm: HCEngine}
+      data:
+        attributeName: 
