@@ -8,7 +8,7 @@ namespace HyperCasual_Engine.Inventory
         public string itemName;
         public AttributeCollection attributeCollection;
 
-        public AttributeType nextAttributeType;
+        public int nextAttributeTypeIndex;
 
         public ItemDefinition(string itemName)
         {

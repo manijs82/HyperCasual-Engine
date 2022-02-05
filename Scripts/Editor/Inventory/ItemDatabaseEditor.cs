@@ -11,10 +11,12 @@ namespace HyperCasual_Engine.Editor
     {
         private ItemDatabase _database;
         private string _newItemName;
+        private ReflectedTypes<AttributeBase> _attributeTypes;
         
         private void OnEnable()
         {
             _database = (ItemDatabase) target;
+            _attributeTypes = new ReflectedTypes<AttributeBase>();
         }
 
         public override void OnInspectorGUI()
@@ -45,9 +47,9 @@ namespace HyperCasual_Engine.Editor
             }
             using (new EditorGUILayout.HorizontalScope())
             {
-                if(GUILayout.Button("Add Attribute")) AddAttributeToItem(definition);
+                if(GUILayout.Button("Add Attribute")) AddAttributeToItem(definition, _attributeTypes.Types[definition.nextAttributeTypeIndex]);
                 EditorGUILayout.LabelField("New Attribute Type", GUILayout.Width(130));
-                definition.nextAttributeType = (AttributeType) EditorGUILayout.EnumPopup(definition.nextAttributeType);
+                definition.nextAttributeTypeIndex = EditorGUILayout.Popup(definition.nextAttributeTypeIndex, _attributeTypes.TypesNames);
             }
 
             EditorGUILayout.Space();
@@ -66,24 +68,8 @@ namespace HyperCasual_Engine.Editor
                 attribute.attributeName = EditorGUILayout.TextField(attribute.attributeName);
                 if(GUILayout.Button("-", GUILayout.Width(20))) RemoveAttributeFromItem(collection, attribute);
             }
-            DrawAttributeValue(attribute);
+            AttributeValueDrawer.Draw(attribute);
             EditorGUILayout.Space();
-        }
-        
-        private void DrawAttributeValue(AttributeBase attribute)
-        {
-            switch (attribute.attributeType)
-            {
-                case AttributeType.Int:
-                attribute.SetValue(EditorGUILayout.IntField("Int Value", (int)attribute.GetValue()));
-                    break;
-                case AttributeType.Text:
-                    break;
-                case AttributeType.Bool:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
         }
 
         private void AddItemToDatabase(string itemName)
@@ -98,10 +84,10 @@ namespace HyperCasual_Engine.Editor
             _database.RemoveItem(definition);
         }
         
-        private void AddAttributeToItem(ItemDefinition definition)
+        private void AddAttributeToItem(ItemDefinition definition, Type type)
         {
             Undo.RecordObject(_database, "Add Attribute To Item");
-            var attrib = AttributeTypeCast.GetAttributeFromType(definition.nextAttributeType);
+            var attrib = (AttributeBase)Activator.CreateInstance(type);
             definition.attributeCollection.AddAttribute(attrib);
         }
         

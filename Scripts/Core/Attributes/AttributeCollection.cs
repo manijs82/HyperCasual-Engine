@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace HyperCasual_Engine.Attributes
 {
     [Serializable]
     public class AttributeCollection
     {
-        public List<AttributeBase> attributes;
+        [SerializeReference] public List<AttributeBase> attributes;
 
         public int Count => attributes.Count;
 

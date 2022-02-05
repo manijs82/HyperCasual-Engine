@@ -1,9 +1,9 @@
-﻿namespace HyperCasual_Engine.Attributes
+﻿namespace HyperCasual_Engine.Attributes.AttributeTypes
 {
     [System.Serializable]
-    public class Attribute<T> : AttributeBase
+    public class IntAttribute : AttributeBase
     {
-        public T value;
+        public int value;
 
         public override object GetValue()
         {
@@ -12,7 +12,7 @@
 
         public override void SetValue(object newValue)
         {
-            value = (T)newValue;
+            value = (int) newValue;
         }
     }
 }
