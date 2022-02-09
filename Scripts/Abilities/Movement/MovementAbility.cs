@@ -16,7 +16,7 @@ namespace HyperCasual_Engine.Abilities
         {
             base.Init();
             if(useAnimations)
-                movementAnimationHandler.Init(this, Owner.playerAnimator);
+                movementAnimationHandler.Init(this, Owner.characterAnimator);
             currentSpeed = initialSpeed;
         }
 

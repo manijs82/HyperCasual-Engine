@@ -45,7 +45,7 @@ namespace HyperCasual_Engine.Editor
             GameObject player = new GameObject("Player");
             CharacterCore playerCore = player.AddComponent<CharacterCore>();
             player.transform.position = Vector3.up;
-            playerCore.playerVisuals = PlayerVisualsType.Cube;
+            playerCore.characterVisuals = PlayerVisualsType.Cube;
             playerCore.CreatePlayerVisuals();
             
             // set up camera

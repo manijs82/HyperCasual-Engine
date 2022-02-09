@@ -11,9 +11,9 @@ namespace HyperCasual_Engine.Attributes
 
         public int Count => attributes.Count;
 
-        public AttributeCollection(List<AttributeBase> attributes)
+        public AttributeCollection()
         {
-            this.attributes = attributes;
+            attributes = new List<AttributeBase>();
         }
         
         public void AddAttribute(AttributeBase attribute)

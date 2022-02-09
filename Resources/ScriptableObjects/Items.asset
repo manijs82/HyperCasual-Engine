@@ -13,18 +13,37 @@ MonoBehaviour:
   m_Name: Items
   m_EditorClassIdentifier: 
   itemDefinitions:
-  - itemName: Gold
+  - itemName: Shield
     attributeCollection:
       attributes:
       - id: 0
-    nextAttributeType: 0
-  - itemName: Silver
+      - id: 1
+    nextAttributeTypeIndex: 1
+  - itemName: Sword
     attributeCollection:
-      attributes: []
-    nextAttributeType: 0
+      attributes:
+      - id: 2
+      - id: 3
+    nextAttributeTypeIndex: 0
   references:
     version: 1
     00000000:
-      type: {class: IntAttribute, ns: HyperCasual_Engine.Attributes, asm: HCEngine}
+      type: {class: MultiLineTextAttribute, ns: HyperCasual_Engine.Attributes.AttributeTypes, asm: HCEngine}
       data:
-        attributeName: 
+        attributeName: Decription
+        value: A shield that was once held by great warrior.
+    00000001:
+      type: {class: IntAttribute, ns: HyperCasual_Engine.Attributes.AttributeTypes, asm: HCEngine}
+      data:
+        attributeName: Defence
+        value: 25
+    00000002:
+      type: {class: IntAttribute, ns: HyperCasual_Engine.Attributes.AttributeTypes, asm: HCEngine}
+      data:
+        attributeName: Damage
+        value: 10
+    00000003:
+      type: {class: BoolAttribute, ns: HyperCasual_Engine.Attributes.AttributeTypes, asm: HCEngine}
+      data:
+        attributeName: IsEnchanted
+        value: 1

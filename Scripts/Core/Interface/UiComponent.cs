@@ -30,12 +30,12 @@ namespace HyperCasual_Engine
 
         private GameObject CreateButton(Transform parent, UiComponent parentComponent)
         {
-            var gameObject = DefaultControls.CreateButton(new DefaultControls.Resources());
-            UnityEngine.Object.DestroyImmediate(gameObject.GetComponentInChildren<Text>());
-            var text = gameObject.transform.GetChild(0).gameObject.AddComponent<TextMeshProUGUI>();
+            var panelPrefab = Resources.Load("Prefabs/UI/Button");
+            if (panelPrefab == null) return null;
+            var gameObject = PrefabUtility.InstantiatePrefab(panelPrefab) as GameObject;
+            
+            var text = gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
             text.text = objectName;
-            text.alignment = TextAlignmentOptions.Midline;
-            text.color = Color.black;
             gameObject.name = objectName;
             gameObject.transform.SetParent(parent);
             
@@ -98,6 +98,7 @@ namespace HyperCasual_Engine
                 panel.Close();
             }
             gameObject.GetComponent<RectTransform>().MakeFullScreen();
+            gameObject.transform.SetAsLastSibling();
             
             Undo.RegisterCreatedObjectUndo(gameObject, UNDO_MASSAGE);
 

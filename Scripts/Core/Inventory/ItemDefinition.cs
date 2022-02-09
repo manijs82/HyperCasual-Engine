@@ -1,4 +1,5 @@
-﻿using HyperCasual_Engine.Attributes;
+﻿using System.Collections.Generic;
+using HyperCasual_Engine.Attributes;
 
 namespace HyperCasual_Engine.Inventory
 {
@@ -13,6 +14,7 @@ namespace HyperCasual_Engine.Inventory
         public ItemDefinition(string itemName)
         {
             this.itemName = itemName;
+            attributeCollection = new AttributeCollection();
         }
     }
 }

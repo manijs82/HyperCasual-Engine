@@ -11,7 +11,7 @@ namespace HyperCasual_Engine
     {
         public List<Ability> abilities;
         public GameObject characterModel;
-        public Animator playerAnimator;
+        public Animator characterAnimator;
 
         private InputManager _inputManager;
         private Ability[] _frequentUseAbilities;

@@ -20,17 +20,17 @@ namespace HyperCasual_Engine.Editor
         {
             _target = target as CharacterCore;
             _abilityTypes = new ReflectedTypes<Ability>();
-            _currentAbilitiesNames = new string[_target.abilities.Count];
-            for (var i = 0; i < _currentAbilitiesNames.Length; i++)
-                _currentAbilitiesNames[i] = ObjectNames.NicifyVariableName(_target.abilities[i].GetType().Name);
         }
 
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
 
-            if (GUILayout.Button("Setup Visuals")) _target.CreatePlayerVisuals();
-            if (GUILayout.Button("Remove Visuals")) _target.RemovePlayerVisuals();
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                if (GUILayout.Button("Setup Visuals")) _target.CreatePlayerVisuals();
+                if (GUILayout.Button("Remove Visuals")) _target.RemovePlayerVisuals();
+            }
             
             EditorGUILayout.Separator();
 
@@ -38,12 +38,25 @@ namespace HyperCasual_Engine.Editor
             {
                 if (GUILayout.Button("Add Ability")) 
                     _target.CreateAndAddAbilityWithUndo(_abilityTypes.Types[_abilityTypes.TypeChoiceIndex]);
-                _abilityTypes.TypeChoiceIndex = EditorGUILayout.Popup("Ability Type", _abilityTypes.TypeChoiceIndex, _abilityTypes.TypesNames);
+                EditorGUILayout.LabelField("Ability Type", GUILayout.Width(80));
+                _abilityTypes.TypeChoiceIndex = EditorGUILayout.Popup(_abilityTypes.TypeChoiceIndex, _abilityTypes.TypesNames);
             }
-            using (new EditorGUILayout.HorizontalScope())
+
+            if (_target.abilities != null)
             {
-                if (GUILayout.Button("Remove Ability")) _target.RemoveAndDestroyAbilityWithUndo(_target.abilities[_removeAbilityIndex]);
-                _removeAbilityIndex = EditorGUILayout.Popup("Ability Type", _removeAbilityIndex, _currentAbilitiesNames);
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    _currentAbilitiesNames = new string[_target.abilities.Count];
+
+                    if (_currentAbilitiesNames.Length > 0)
+                    {
+                        for (var i = 0; i < _currentAbilitiesNames.Length; i++)
+                            _currentAbilitiesNames[i] = ObjectNames.NicifyVariableName(_target.abilities[i].GetType().Name);
+                        if (GUILayout.Button("Remove Ability")) _target.RemoveAndDestroyAbilityWithUndo(_target.abilities[_removeAbilityIndex]);
+                        EditorGUILayout.LabelField("Ability Type", GUILayout.Width(80));
+                        _removeAbilityIndex = EditorGUILayout.Popup(_removeAbilityIndex, _currentAbilitiesNames);
+                    }
+                }
             }
             
             EditorGUILayout.Separator();

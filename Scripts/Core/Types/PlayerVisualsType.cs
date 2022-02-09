@@ -4,6 +4,6 @@
     {
         Cube,
         Prefab,
-        RiggedModel,
+        AnimatedModel
     }
 }

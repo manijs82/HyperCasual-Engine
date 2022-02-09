@@ -45,8 +45,6 @@ namespace HyperCasual_Engine.CameraTypes
             return target.TransformPoint(movingOffset);
         }
 
-        #if UNITY_EDITOR
-
         private void OnValidate()
         {
             SceneView.RepaintAll();
@@ -56,6 +54,5 @@ namespace HyperCasual_Engine.CameraTypes
         {
             transform.position = GetTargetPosition();
         }
-        #endif
     }
 }
