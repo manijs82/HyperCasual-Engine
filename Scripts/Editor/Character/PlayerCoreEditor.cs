@@ -34,46 +34,70 @@ namespace HyperCasual_Engine.Editor
             
             EditorGUILayout.Separator();
 
-            using (new EditorGUILayout.HorizontalScope())
-            {
-                if (GUILayout.Button("Add Ability")) 
-                    _target.CreateAndAddAbilityWithUndo(_abilityTypes.Types[_abilityTypes.TypeChoiceIndex]);
-                EditorGUILayout.LabelField("Ability Type", GUILayout.Width(80));
-                _abilityTypes.TypeChoiceIndex = EditorGUILayout.Popup(_abilityTypes.TypeChoiceIndex, _abilityTypes.TypesNames);
-            }
+            DrawAddAbility();
 
-            if (_target.abilities != null)
-            {
-                using (new EditorGUILayout.HorizontalScope())
-                {
-                    _currentAbilitiesNames = new string[_target.abilities.Count];
+            if (_target.abilities != null) 
+                DrawRemoveAbility();
 
-                    if (_currentAbilitiesNames.Length > 0)
-                    {
-                        for (var i = 0; i < _currentAbilitiesNames.Length; i++)
-                            _currentAbilitiesNames[i] = ObjectNames.NicifyVariableName(_target.abilities[i].GetType().Name);
-                        if (GUILayout.Button("Remove Ability")) _target.RemoveAndDestroyAbilityWithUndo(_target.abilities[_removeAbilityIndex]);
-                        EditorGUILayout.LabelField("Ability Type", GUILayout.Width(80));
-                        _removeAbilityIndex = EditorGUILayout.Popup(_removeAbilityIndex, _currentAbilitiesNames);
-                    }
-                }
-            }
-            
             EditorGUILayout.Separator();
             
-            if (GUILayout.Button("Clear Player"))
-            {
-                _target.abilities.Clear();
-                foreach (var component in _target.gameObject.GetComponents(typeof(Component)))
-                {
-                    if(component is Ability)
-                        DestroyImmediate(component);
-                }
+            if (GUILayout.Button("Clear Player")) 
+                ClearPlayer();
 
-                for (int i = _target.transform.childCount - 1; i >= 0; i--)
+            EditorGUILayout.Separator();
+            
+            DrawCharacterState();
+        }
+
+        private void DrawCharacterState()
+        {
+            GUI.enabled = false;
+            EditorGUILayout.EnumPopup("Current State", _target.CurrentState);
+            GUI.enabled = true;
+        }
+
+        private void DrawRemoveAbility()
+        {
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                _currentAbilitiesNames = new string[_target.abilities.Count];
+
+                if (_currentAbilitiesNames.Length > 0)
                 {
-                    DestroyImmediate(_target.transform.GetChild(i).gameObject);
+                    for (var i = 0; i < _currentAbilitiesNames.Length; i++)
+                        _currentAbilitiesNames[i] = ObjectNames.NicifyVariableName(_target.abilities[i].GetType().Name);
+                    if (GUILayout.Button("Remove Ability"))
+                        _target.RemoveAndDestroyAbilityWithUndo(_target.abilities[_removeAbilityIndex]);
+                    EditorGUILayout.LabelField("Ability Type", GUILayout.Width(80));
+                    _removeAbilityIndex = EditorGUILayout.Popup(_removeAbilityIndex, _currentAbilitiesNames);
                 }
+            }
+        }
+
+        private void DrawAddAbility()
+        {
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                if (GUILayout.Button("Add Ability"))
+                    _target.CreateAndAddAbilityWithUndo(_abilityTypes.Types[_abilityTypes.TypeChoiceIndex]);
+                EditorGUILayout.LabelField("Ability Type", GUILayout.Width(80));
+                _abilityTypes.TypeChoiceIndex =
+                    EditorGUILayout.Popup(_abilityTypes.TypeChoiceIndex, _abilityTypes.TypesNames);
+            }
+        }
+
+        private void ClearPlayer()
+        {
+            _target.abilities.Clear();
+            foreach (var component in _target.gameObject.GetComponents(typeof(Component)))
+            {
+                if (component is Ability)
+                    DestroyImmediate(component);
+            }
+
+            for (int i = _target.transform.childCount - 1; i >= 0; i--)
+            {
+                DestroyImmediate(_target.transform.GetChild(i).gameObject);
             }
         }
     }

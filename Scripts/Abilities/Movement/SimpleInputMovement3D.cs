@@ -18,9 +18,8 @@ namespace HyperCasual_Engine.Abilities
         #region Properties
 
         public override Vector3 MoveDirection => _nextDirection;
-
+        public override bool IsMoving => _nextDirection.magnitude > startMovingThreshold;
         private float Horizontal => Owner.InputManager.horizontal;
-        
         private float Vertical => Owner.InputManager.vertical;
 
         #endregion
@@ -65,7 +64,7 @@ namespace HyperCasual_Engine.Abilities
 
         protected override void UpdateAnimatorHandler()
         {
-            movementAnimationHandler.UpdateAnimator(MoveDirection.x, MoveDirection.z);
+            movementAnimationHandler.UpdateAnimator(MoveDirection.x, MoveDirection.z, MoveDirection.magnitude, IsMoving);
         }
 
         private enum MovementMode
