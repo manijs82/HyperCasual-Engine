@@ -9,16 +9,21 @@ namespace HyperCasual_Engine
 {
     public class Character : MonoBehaviour
     {
+        public event Action<CharacterState> OnStateChange; 
+        
         public List<Ability> abilities;
         public GameObject characterModel;
         public Animator characterAnimator;
 
         private InputManager _inputManager;
         private Ability[] _frequentUseAbilities;
+        
+        public CharacterState CurrentState { get; private set; }
+        public CharacterState PreviousState { get; private set; }
 
         public InputManager InputManager => _inputManager;
         public MovementAbility Movement { get; private set; }
-
+        public CharacterRotation Rotation { get; private set; }
 
         private void Awake()
         {
@@ -26,6 +31,7 @@ namespace HyperCasual_Engine
             if(_inputManager == null)
                 Debug.LogError("Could not find InputManager. Add the InputManager Script to you scene");
             Movement = GetComponent<MovementAbility>();
+            Rotation = GetComponent<CharacterRotation>();
             
             _frequentUseAbilities = abilities.Where(a => a.UseInUpdate).ToArray();
             InitAbilities();
@@ -45,6 +51,14 @@ namespace HyperCasual_Engine
             {
                 ability.Use();
             }            
+        }
+
+        public void ChangeState(CharacterState state)
+        {
+            PreviousState = CurrentState;
+            CurrentState = state;
+            
+            OnStateChange?.Invoke(state);
         }
 
         public void CreateAndAddAbility<T>() where T : Ability

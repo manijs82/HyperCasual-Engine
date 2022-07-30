@@ -8,9 +8,9 @@ namespace HyperCasual_Engine.Abilities
 
         private MovementAbility _movement;
         private Quaternion _newRotation;
-
-        private Vector3 MoveDirection => _movement.MoveDirection; 
-
+        
+        public Vector3 CurrentDirection { get; private set; }
+        
         public override void Init()
         {
             base.Init();
@@ -32,12 +32,13 @@ namespace HyperCasual_Engine.Abilities
             }
 
             Owner.characterModel.transform.rotation = _newRotation;
+            CurrentDirection = _newRotation * Vector3.forward;
         }
 
         private void RotateTowardsMoveDirection()
         {
-            if(MoveDirection != Vector3.zero)
-                _newRotation = Quaternion.LookRotation(MoveDirection);
+            if(_movement.MoveDirection != Vector3.zero) 
+                _newRotation = Quaternion.LookRotation(_movement.MoveDirection);
         }
 
         private void RotateTowardsMouseDirection()

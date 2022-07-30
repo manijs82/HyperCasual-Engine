@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace HyperCasual_Engine
 {
     public class Ability : MonoBehaviour
     {
         [SerializeField] protected bool active = true;
+        [SerializeField] protected CharacterState[] blockingCharacterStates;
         
         protected Character Owner;
 
@@ -14,7 +16,8 @@ namespace HyperCasual_Engine
             set => active = value;
         }
         public virtual bool UseInUpdate => true;
-        protected virtual bool UsageAuthorized => active;
+        protected virtual bool UsageAuthorized => active
+        && !blockingCharacterStates.Contains(Owner.CurrentState);
 
         public virtual void Init()
         {

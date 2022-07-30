@@ -25,6 +25,9 @@ MonoBehaviour:
   - inputName: Pause
     pressType: 0
     button: 27
+  - inputName: Dodge
+    pressType: 0
+    button: 32
   mouseEvents:
   - inputName: LeftPressDown
     pressType: 0

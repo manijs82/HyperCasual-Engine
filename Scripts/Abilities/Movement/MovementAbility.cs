@@ -11,6 +11,7 @@ namespace HyperCasual_Engine.Abilities
         [HideInInspector] public float currentSpeed;
         
         public virtual Vector3 MoveDirection => transform.forward;
+        public virtual bool IsMoving => false;
 
         public override void Init()
         {
@@ -22,8 +23,11 @@ namespace HyperCasual_Engine.Abilities
 
         public override void Use()
         {
-            if(UsageAuthorized)
-                Move();
+            if (!UsageAuthorized) return;
+            Move();
+                
+            if(IsMoving && Owner.CurrentState != CharacterState.Moving)
+                Owner.ChangeState(CharacterState.Moving);
         }
 
         protected virtual void Move() { }
