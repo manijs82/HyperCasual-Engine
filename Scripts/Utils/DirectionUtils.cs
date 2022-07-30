@@ -22,9 +22,21 @@ namespace HyperCasual_Engine.Utils
             {
                 Direction.North => Quaternion.Euler(0, 0, 0),
                 Direction.South => Quaternion.Euler(0, 180, 0),
-                Direction.East => Quaternion.Euler(0, 90, 0),
-                Direction.West => Quaternion.Euler(0, 270, 0),
+                Direction.East => Quaternion.Euler(0, 270, 0),
+                Direction.West => Quaternion.Euler(0, 90, 0),
                 _ => Quaternion.identity
+            };
+        }
+        
+        public static int GetAngle(this Direction direction)
+        {
+            return direction switch
+            {
+                Direction.North => 0,
+                Direction.South => 180,
+                Direction.East => 90,
+                Direction.West => 270,
+                _ => 0
             };
         }
     }
