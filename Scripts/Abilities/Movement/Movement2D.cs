@@ -4,30 +4,32 @@ namespace HyperCasual_Engine.Abilities
 {
     public class Movement2D : MovementAbility
     {
-        [SerializeField] private float acceleration = 1;
-        [SerializeField] private float deAcceleration = .5f;
-        
-        private Vector3 moveDirection;
-        private Vector3 velocity;
-        
-        private float Horizontal => Owner.InputManager.horizontal;
-        private float Vertical => Owner.InputManager.vertical;
-        
-        protected override void Move()
+        Rigidbody2D body;
+
+        float horizontal;
+        float vertical;
+        float moveLimiter = 0.7f;
+
+        void Start ()
         {
-            UpdateVelocity();
-            transform.position += velocity * Time.deltaTime;
+            body = GetComponent<Rigidbody2D>();
         }
 
-        private void UpdateVelocity()
+        void Update()
         {
-            var inputDir = new Vector3(Horizontal, Vertical).normalized;
-            moveDirection = inputDir * acceleration;
-            velocity += moveDirection;
+            horizontal = Owner.InputManager.horizontal;
+            vertical = Owner.InputManager.vertical;
+        }
 
-            velocity -= velocity * deAcceleration;
+        void FixedUpdate()
+        {
+            if (horizontal != 0 && vertical != 0)
+            {
+                horizontal *= moveLimiter;
+                vertical *= moveLimiter;
+            }
 
-            velocity = Vector3.ClampMagnitude(velocity, initialSpeed);
+            body.velocity = new Vector2(horizontal * initialSpeed, vertical * initialSpeed);
         }
     }
 }
