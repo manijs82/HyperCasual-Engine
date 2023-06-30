@@ -1,5 +1,5 @@
 # HyperCasual-Engine
- Set of tools in unity for making small games or protorypes with expandability in mind.
+ Set of tools in unity for making small games or prototypes with expandability in mind.
 
 ## Contents
 - Player buider : Many basic types of movement and some advanced ones are included. Player visualization is configarable in a few clicks. Many abilitys such as inventory and etc.
